@@ -36,110 +36,117 @@
 
 /* =====================End NAV===================== */
 
-
 .content{
+    display: flex;
     margin-top: 30px;
-    display: flex;
 }
 
-/* =====================sidebar===================== */
 .side-bar{
+    flex: 1;
     height: 100vh;
-    min-width: 219px;
-    border-right: 0.5px solid #9d9d9d;
+    border-right: 1px solid #d9d7d7;
+    display: flex;
+    flex-direction: column;
+    align-content:center
+}
+
+.main-content{
+    flex: 8;
     display: flex;
     flex-direction: column;
 }
 
-.side-bar img{
-    margin: 14px;
-}
-
-.employee {
-    margin-left: 8px;
-    font-size: 13px;
-    font-weight: 800px;
-    color: #7c7bad;
-}
-
-.side-bar ul{
-    margin: 8px;
-    padding-left: 24px;
-}
-
-.side-bar > ul > li {
-    margin-bottom: 5px;
-    font-size: 13px;
-    font-weight: 800px;
-    color: #7c7bad;
-    list-style-type: none;
-    
-}
-
-.departments {
-    padding: 4px 8px;
-    font-size: 13px;
-    font-weight: bold;
-    color: #7c7bad;
-}
-
-/* =====================End Sidebar===================== */
-
-.main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-/* =====================Top-Content===================== */
 .top-content{
-    flex: 1;
-    max-height: 86px;
-    border-bottom: 0.5px solid #9d9d9d;
+    height: 86px;
     display: flex;
-    flex-wrap: wrap;
-
+    border-bottom: 1px solid #d9d7d7;
 }
 
 .right{
-    padding: 8px, 0px, 0px, 8px;
-    min-height: 43px;
-    flex: 1;    
+    flex: 1;
+}
+
+.right>h3{
+    margin: 16px auto auto 16px;
+    color: #9d9d9d;
+    font-weight: 400;
 }
 
 .left{
-    flex: 1; 
-    flex-direction: column;   
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .left-top{
+    flex: 1;
     display: flex;
-    flex: 1
+    justify-content: end;
+    align-items: center;
+    margin-right: 16px;
 }
 
-.left-top input{
-    flex: 1;
+.left-top > input {
+    height: 60%;
+    width: 90%;
+    margin-top: 8px;
+    margin-right: 8px;
 }
+
 .left-bottom{
     flex: 1;
     display: flex;
     justify-content: end;
+    align-items: center;
 }
 
-/* =====================End Top-Content===================== */
+.left-bottom > button{
+    height: 60%;
+    margin-right: 16px;
+}
+
+.left-bottom > p{
+    font-size: 13px;
+    font-weight: 700px;
+    margin-right: 16px;
+}
 
 .listEmployee{
-    flex: 1;
-    height: 100vh;
-    overflow-y: scroll;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 .employeeInlist{
-    width: 30%;
+    width: 23.5%;
     height: 100px;
-    margin-top: 40px;
-    border: 1px solid #222222;
+    margin-top: 16px;
+    border: 0.5px solid #d9d7d7;
+    display: flex;
+    align-items: center;
+}
+
+.employeeInlist img{
+    height: 60%;
+    margin: 8px;
+}
+
+.infor{
+    flex: 1;
+    margin-right: 16px;
+}
+
+.infor-employee p{
+    margin:0px auto 5px auto;
+    font-size: 13px;
+    color: #7c7bad;
+}
+
+.infor button {
+    float: right;
+    min-width: 36px;
+    height: 26px;
+    background-color: #7c7bad;
+    color: #d9d7d7;
+    border: none;
 }
