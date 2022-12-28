@@ -1,5 +1,5 @@
 
-const EMPLOYEES = [
+export const EMPLOYEES = [
     {
         "id": 5345,
         "name": "Đặng Thị Minh Hòa",
@@ -961,3 +961,4 @@ const EMPLOYEES = [
         "job": "Developer"
     }
 ]
+
