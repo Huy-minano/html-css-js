@@ -959,6 +959,18 @@ export const EMPLOYEES = [
         "name": "Honzaki Yuko",
         "email": "yuko.honzaki@ntq-solution.com.vn",
         "job": "Developer"
+    },
+    {
+        "id": 5355,
+        "name": "Hồ Nhị Hà",
+        "email": "ha.ho@ntq-solution.com.vn",
+        "job": "Tester"
+    },
+    {
+        "id": 5486,
+        "name": "Honzaki Yuko",
+        "email": "yuko.honzaki@ntq-solution.com.vn",
+        "job": "Developer"
     }
 ]
 
