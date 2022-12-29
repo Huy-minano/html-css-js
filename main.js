@@ -16,97 +16,50 @@ const addEmployee = document.querySelector(".btn-add-employee")
 let currentPage = 1; //trang hiện tại, set giá trị ban đầu = 1
 let perPage = 40; // số employees trên 1 page
 let totalPage = Math.ceil(EMPLOYEES.length / perPage) // tổng số page cần để hiển thị hết
-let perEmployees = [] // mảng chứa các employess được hiển thị trên trang set giá trị ban đầu là mâng rỗng
-
-// set các giá trị vào mảng perEmployees để hiện lần đầu tải trang
-perEmployees = allEmployees.slice((currentPage - 1) * perPage, (currentPage - 1) * perPage + perPage)
-
-// chuyển trang sau khi nhấn next
-nextPage.onclick = function () {
-    if (currentPage >= 1 && currentPage < totalPage) {
-        currentPage = currentPage + 1
-        perEmployees = allEmployees.slice((currentPage - 1) * perPage, (currentPage - 1) * perPage + perPage)
-        renderEmployees()
-    }
-}
-
-// chuyển trang sau khi nhấn previos
-previousPage.onclick = function () {
-    if (currentPage > 1 && currentPage <= totalPage) {
-        currentPage = currentPage - 1
-        perEmployees = allEmployees.slice((currentPage - 1) * perPage, (currentPage - 1) * perPage + perPage)
-        renderEmployees()
-    }
-}
-
-// Hiển trị số thứ tự của các employee trong trang
-function renderCurrentPage() {
-    const beginNumber = (currentPage - 1) * perPage + 1
-    let endNumber = (currentPage !== totalPage)
-        ? (currentPage - 1) * perPage + perPage
-        : (currentPage - 1) * perPage + (allEmployees.length % perPage)
-    location.innerHTML = `<p>${beginNumber}-${endNumber}/${EMPLOYEES.length}</p>`
-}
-
-// Sắp xếp các thành viên theo tên a-z
-sortEmployeeAz.onclick = function () {
-    allEmployees.sort((a, b) => {
-        let c = a.name.split(" ")
-        let d = b.name.split(" ")
-        return ('' + c[c.length - 1]).localeCompare(d[d.length - 1]);
-    })
-    perEmployees = allEmployees.slice((currentPage - 1) * perPage, (currentPage - 1) * perPage + perPage)
-    renderEmployees()
-}
-
-// Sắp xếp các thành viên theo tên z-a
-sortEmployeeZa.onclick = function () {
-    allEmployees.sort((a, b) => {
-        let c = a.name.split(" ")
-        let d = b.name.split(" ")
-        return ('' + d[d.length - 1]).localeCompare(c[c.length - 1]);
-    })
-    perEmployees = allEmployees.slice((currentPage - 1) * perPage, (currentPage - 1) * perPage + perPage)
-    renderEmployees()
-}
-
-//Filter Employee 
-filterEmployee.oninput = function (e) {
-    currentPage = 1;
-    const filterValue = e.target.value
-    const filterList = allEmployees.filter((employee) =>
-        employee.name.toLowerCase().search(filterValue.toLowerCase()) !== -1
-    )
-    perEmployees = filterList.slice((currentPage - 1) * perPage, (currentPage - 1) * perPage + perPage)
-    renderEmployees()
-}
-
-//Add employee
-addEmployee.onclick = function () {
-    if (inputEmployee.value !== "" && inputJob.value !== "") {
-        const nameNewEmployee = inputEmployee.value
-        const newJob = inputJob.value
-        const emailNewEmployee = loc_xoa_dau(nameNewEmployee.split(" ")[nameNewEmployee.split(" ").length - 1]).toLowerCase()
-            + loc_xoa_dau("." + nameNewEmployee.split(" ")[0]).toLowerCase()
-            + "@ntq-solution.com.vn"
-        const jobNewEmployee = newJob
-
-        allEmployees.unshift({
-            id: 1,
-            name: nameNewEmployee,
-            email: emailNewEmployee,
-            job: jobNewEmployee
-        })
-    }
-    perEmployees = allEmployees.slice((currentPage - 1) * perPage, (currentPage - 1) * perPage + perPage)
-    renderEmployees()
-}
-
 
 // add element vào DOM
-function renderEmployees() {
-    renderCurrentPage()
-    const html = perEmployees.map((employee) => (
+function renderEmployees(listElementShowed) {
+    // set các giá trị vào mảng listElementShowed để biểu diễn 
+    const listElementShowedPerPage = listElementShowed.slice((currentPage - 1) * perPage, (currentPage - 1) * perPage + perPage)
+    //Render 
+    renderCurrentPage(listElementShowed.length)
+    // chuyển trang sau khi nhấn next
+    nextPage.onclick = function () {
+        if (currentPage >= 1 && currentPage < totalPage) {
+            currentPage = currentPage + 1
+            renderEmployees(listElementShowed)
+        }
+    }
+
+    // chuyển trang sau khi nhấn previos
+    previousPage.onclick = function () {
+        if (currentPage > 1 && currentPage <= totalPage) {
+            currentPage = currentPage - 1
+            renderEmployees(listElementShowed)
+        }
+    }
+
+    // Sắp xếp các thành viên theo tên a-z
+    sortEmployeeAz.onclick = function () {
+        const allEmployeesSortedAz = listElementShowed.sort((a, b) => {
+            let c = a.name.split(" ")
+            let d = b.name.split(" ")
+            return ('' + c[c.length - 1]).localeCompare(d[d.length - 1]);
+        })
+        renderEmployees(allEmployeesSortedAz)
+    }
+
+    // Sắp xếp các thành viên theo tên z-a
+    sortEmployeeZa.onclick = function () {
+        const allEmployeesSortZa = listElementShowed.sort((a, b) => {
+            let c = a.name.split(" ")
+            let d = b.name.split(" ")
+            return ('' + d[d.length - 1]).localeCompare(c[c.length - 1]);
+        })
+        renderEmployees(allEmployeesSortZa)
+    }
+
+    const html = listElementShowedPerPage.map((employee) => (
         `<div class="employeeInlist">
             <img src="img/avatar.png" alt="">
             <div class="infor">
@@ -122,7 +75,56 @@ function renderEmployees() {
     listEmployee.innerHTML = html.join("")
 }
 
-renderEmployees()
+// truyền vào mảng data gốc vào hàm renderEmployee để hiện thị (mặc định)
+renderEmployees(allEmployees)
+
+// Hiển trị số thứ tự của các employee trong trang
+function renderCurrentPage(quantity) {
+    totalPage = Math.ceil(quantity / perPage)
+    const beginNumber = (currentPage - 1) * perPage + 1
+    let endNumber = (currentPage !== totalPage)
+        ? (currentPage - 1) * perPage + perPage
+        : (currentPage - 1) * perPage + (quantity % perPage)
+    location.innerHTML = `<p>${beginNumber}-${endNumber}/${quantity}</p>`
+}
+
+//Filter Employee 
+filterEmployee.oninput = function (e) {
+    currentPage = 1;
+    const filterValue = e.target.value
+    const filterList = allEmployees.filter((employee) =>
+        employee.name.toLowerCase().search(filterValue.toLowerCase()) !== -1
+    )
+    renderEmployees(filterList)
+}
+
+
+//Add employee
+addEmployee.onclick = function () {
+    if (inputEmployee.value !== "" && inputJob.value !== "") {
+        const maxId = Math.max(allEmployees.map((employee)=>{
+            return [... employee.id]
+        }))
+        console.log(maxId)
+        const nameNewEmployee = inputEmployee.value
+        const newJob = inputJob.value
+        const emailNewEmployee = loc_xoa_dau(nameNewEmployee.split(" ")[nameNewEmployee.split(" ").length - 1]).toLowerCase()
+            + loc_xoa_dau("." + nameNewEmployee.split(" ")[0]).toLowerCase()
+            + "@ntq-solution.com.vn"
+        const jobNewEmployee = newJob
+
+        allEmployees.unshift({
+            id: 1,
+            name: nameNewEmployee,
+            email: emailNewEmployee,
+            job: jobNewEmployee
+        })
+    }
+    renderEmployees(allEmployees)
+}
+
+
+
 
 function loc_xoa_dau(str) {
     // Gộp nhiều dấu space thành 1 space
