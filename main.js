@@ -42,9 +42,11 @@ function renderEmployees(listElementShowed) {
     // Sắp xếp các thành viên theo tên a-z
     sortEmployeeAz.onclick = function () {
         const allEmployeesSortedAz = listElementShowed.sort((a, b) => {
-            let c = a.name.split(" ")
-            let d = b.name.split(" ")
-            return ('' + c[c.length - 1]).localeCompare(d[d.length - 1]);
+            let c = a.name.trim().split(" ")
+            let d = b.name.trim().split(" ")
+            let e = !Number(c[c.length-1]) ? c[c.length-1] : c[c.length-2]
+            let f = !Number(d[d.length-1]) ? d[d.length-1] : d[d.length-2]
+            return ('' + e).localeCompare(f);
         })
         renderEmployees(allEmployeesSortedAz)
     }
@@ -52,9 +54,11 @@ function renderEmployees(listElementShowed) {
     // Sắp xếp các thành viên theo tên z-a
     sortEmployeeZa.onclick = function () {
         const allEmployeesSortZa = listElementShowed.sort((a, b) => {
-            let c = a.name.split(" ")
-            let d = b.name.split(" ")
-            return ('' + d[d.length - 1]).localeCompare(c[c.length - 1]);
+            let c = a.name.trim().split(" ")
+            let d = b.name.trim().split(" ")
+            let e = !Number(c[c.length-1]) ? c[c.length-1] : c[c.length-2]
+            let f = !Number(d[d.length-1]) ? d[d.length-1] : d[d.length-2]
+            return ('' + f).localeCompare(e);
         })
         renderEmployees(allEmployeesSortZa)
     }
@@ -102,19 +106,64 @@ filterEmployee.oninput = function (e) {
 //Add employee
 addEmployee.onclick = function () {
     if (inputEmployee.value !== "" && inputJob.value !== "") {
-        const maxId = Math.max(allEmployees.map((employee)=>{
-            return [... employee.id]
-        }))
-        console.log(maxId)
-        const nameNewEmployee = inputEmployee.value
-        const newJob = inputJob.value
-        const emailNewEmployee = loc_xoa_dau(nameNewEmployee.split(" ")[nameNewEmployee.split(" ").length - 1]).toLowerCase()
-            + loc_xoa_dau("." + nameNewEmployee.split(" ")[0]).toLowerCase()
-            + "@ntq-solution.com.vn"
-        const jobNewEmployee = newJob
+        // Tìm Id lớn nhất trong mảng
+        let idList = []
+        allEmployees.forEach(element => {
+            idList.push(element.id)
+        })
+        const maxId = Math.max(...idList)
+
+        // set name new employee 
+        // tạo ra mảng mới bao gồm các tên có sẵn, xóa kí tự đầu nếu là số, mảng mới bao gồm mail, xóa kí tự số
+        let nameList = []
+        let emailList = []
+        allEmployees.forEach(element => {
+            let nameToArray = element.name.trim().split(" ")
+            nameToArray = Number(nameToArray[nameToArray.length - 1]) 
+                ? nameToArray.slice(0, nameToArray.length - 1) 
+                : nameToArray
+            const modifyName = nameToArray.join(" ")
+            const modifyEmail = loc_xoa_dau(nameToArray[nameToArray.length-1]).toLowerCase() + "." + loc_xoa_dau(nameToArray[0]).toLowerCase()
+            nameList.push(modifyName)
+            emailList.push(modifyEmail)
+        })
+        console.log(emailList)
+        //check new name đã có trong name list chưa, nếu có cộng thêm count
+        let newEmployeeInput = inputEmployee.value
+
+        let nameNewEmployee = ""
+        let emailNewEmployee = ''
+        let countName = 0
+        let countEmail = 0
+        nameList.forEach(name => {
+            if(newEmployeeInput === name){
+                countName = countName + 1
+            }
+        })
+        if(countName > 0) {
+            nameNewEmployee = newEmployeeInput + " " + countName
+        } else{
+            nameNewEmployee = newEmployeeInput
+        } 
+
+        //check new email đã có trong name list chưa, nếu có cộng thêm count
+        const arrNewEmployeeInput = newEmployeeInput.split(" ")
+        emailNewEmployee = loc_xoa_dau(arrNewEmployeeInput[arrNewEmployeeInput.length-1]).toLowerCase() 
+            + "." 
+            + loc_xoa_dau(arrNewEmployeeInput[0]).toLowerCase()
+        emailList.forEach((email)=>{
+            if(emailNewEmployee === email){
+                countEmail = countEmail + 1
+            }
+        })
+        if(countEmail > 0){ 
+            emailNewEmployee = emailNewEmployee + countEmail + "@ntq-solution.com.vn"
+        } else emailNewEmployee = emailNewEmployee + "@ntq-solution.com.vn"
+
+        const jobNewEmployee = inputJob.value
 
         allEmployees.unshift({
-            id: 1,
+            id: maxId + 1,
             name: nameNewEmployee,
             email: emailNewEmployee,
             job: jobNewEmployee

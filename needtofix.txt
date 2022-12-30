@@ -1,0 +1,4 @@
+sắp xếp theo tên, nếu kí tự cuối là số, so sánh chữ thứ 2
+set id =  id lớn nhất hiện có + 1 : ok
+add tên employee, nếu trùng thêm số
+add tên email nếu trùng thêm số
