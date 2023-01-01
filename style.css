@@ -140,12 +140,27 @@
 }
 
 .employeeInlist{
-    width: 23.5%;
+    width: 30%;
     height: 100px;
     margin-top: 16px;
     border: 0.5px solid #d9d7d7;
+    border-radius: 10px;
     display: flex;
     align-items: center;
+}
+
+.avatar-employee{
+    flex: 0.3;
+    height: 80%;
+    margin: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    font-weight: 600;
+    color: #cccccc;
+    border-radius: 10%;
+    border: 0.5px solid #d9d7d7 ;
 }
 
 .employeeInlist img{
@@ -155,13 +170,22 @@
 
 .infor{
     flex: 1;
-    margin-right: 16px;
+    margin-right: 8px;
 }
 
 .infor-employee p{
     margin:0px auto 5px auto;
-    font-size: 13px;
+    font-size: 12px;
     color: #7c7bad;
+}
+
+.email{
+    display: flex;
+    color: #a6d5ff;
+}
+
+.email p{
+    margin-left: 8px;
 }
 
 .infor button {
@@ -171,4 +195,9 @@
     background-color: #7c7bad;
     color: #d9d7d7;
     border: none;
+    border-radius: 6px;
+}
+
+.infor button:hover{
+    background-color: #686794;
 }

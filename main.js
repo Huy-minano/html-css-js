@@ -69,12 +69,17 @@ function renderEmployees(listElementShowed) {
   const html = listElementShowedPerPage.map(
     (employee) =>
       `<div class="employeeInlist">
-            <img src="img/avatar.png" alt="">
+            <div class="avatar-employee">
+              ${employee.email[0].toLocaleUpperCase()}
+            </div>
             <div class="infor">
                 <div class="infor-employee">
                     <p>${employee.name}</p>
                     <p>${employee.job}</p>
-                    <p>${employee.email}</p>
+                    <div class="email">
+                      <i class="fa-solid fa-envelope"></i>
+                      <p>${employee.email}</p>
+                    </div>
                 </div>
                 <button>Follow</button>
             </div>
@@ -93,9 +98,9 @@ function renderCurrentPage(quantity) {
   console.log(currentPage);
   console.log(totalPage);
   let endNumber =
-    currentPage !== totalPage && quantity % perPage !== 0
-      ? (currentPage - 1) * perPage + perPage
-      : (currentPage - 1) * perPage + (quantity % perPage);
+    currentPage === totalPage && quantity % perPage !== 0
+      ? (currentPage - 1) * perPage + (quantity % perPage)
+      : (currentPage - 1) * perPage + perPage;
   location.innerHTML = `<p>${beginNumber}-${endNumber}/${quantity}</p>`;
 }
 
@@ -175,7 +180,7 @@ addEmployee.onclick = function () {
     }
 
     let mangSoEmail = [0];
-    if (mangEmailGiong === 0) {
+    if (mangEmailGiong.length === 0) {
       emailDuocChon = tenEmail + "@ntq-solution.com.vn";
     } else {
       mangEmailGiong.forEach((element) => {
