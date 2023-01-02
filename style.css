@@ -28,6 +28,10 @@
     color: #9d9d9d;
 }
 
+.nav-item:hover{
+    color: #ffff;
+}
+
 .nav-item>img {
     width: 18px;
     height: 18px;
@@ -47,7 +51,41 @@
     border-right: 1px solid #d9d7d7;
     display: flex;
     flex-direction: column;
-    align-content:center
+}
+
+.side-bar > img{
+    margin: 14px 0px;
+    width: 180px;
+    height: 70px;
+    align-self: center;
+}
+
+.side-bar > .employee{
+    font-size: 13px;
+    font-weight: bold;
+    margin-left: 8px;
+    color: #7c7bad;
+}
+
+.about-employee{
+    margin: 3px 0px 10px 0px;
+    padding: 0px;
+}
+
+.about-employee > li{
+    margin-left: 8px;
+    padding: 4px 4px 4px 18px;
+    list-style-type: none;
+    font-size: 13px;
+    color: #4c4c4c;
+}
+
+.departments{
+    margin: 2px 0px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-left: 8px;
+    color: #7c7bad;
 }
 
 .main-content{
@@ -68,16 +106,54 @@
     flex-direction: column;
 }
 
+.right-top{
+    flex: 1;
+}
+
 .add-employee{
-    margin: 16px;
+    flex: 1;
+    display: flex;
+    justify-content: start;
+    align-items: center;
 }
 
 .input-add-employee{
-    width: 60%;
+    flex: 0.5;
+    height: 68%;
+    margin-left: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
 }
 
-.right>h3{
-    margin: 16px auto auto 16px;
+.input-add-job{
+    flex: 0.3;
+    height: 68%;
+    margin-left: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}
+
+.btn-add-employee{
+    flex: 0.08;
+    height: 68%;
+    margin-left: 16px;
+    color: #686767;
+    background-color: #fdfdfd;
+    border: 1px solid #c6c6c6;
+    border-radius: 6px;
+}
+
+.btn-add-employee:hover{
+    background-color: #ecebeb;
+}
+
+
+.btn-add-employee:active{
+    border: 1px solid #949494;
+}
+
+.right-top>h3{
+    margin: 12px 0px 0px 16px;
     color: #9d9d9d;
     font-weight: 400;
 }
@@ -118,19 +194,93 @@
 .left-bottom{
     flex: 1;
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
 }
 
-.left-bottom > button{
-    height: 60%;
+.left-bottom button:hover{
+    background-color: #ecebeb;
+}
+
+
+.left-bottom button:active{
+    border: 1px solid #949494;
+}
+
+.left-bottom-left{
+    display: flex;
+    flex: 1;
+}
+
+.left-bottom-left > button{
     margin-right: 16px;
+    padding: 6px 12px;
+    color: #686767;
+    background-color: #fdfdfd;
+    border: 1px solid #c6c6c6;
+    border-radius: 6px;
+}
+
+.left-bottom-right{
+    display: flex;
+    flex: 0.5;
+    justify-content: space-between;
+}
+
+.sort{
+    display: flex;
+    align-items: center;
+}
+
+.sort > button{
+    height: 70%;
+    margin: 0px;
+    padding: 0px 12px;
+    color: #898989;
+    font-weight: 800;
+    background-color: #fdfdfd;
+    border: 1px solid #c6c6c6;
+}
+
+.nextPage{
+    border-radius: 0px 4px 4px 0px;
+}
+
+
+.previousPage{
+    border-radius: 4px 0px 0px 4px;
+}
+
+.kanban-list{
+    display: flex;
+    align-items: center;
+}
+
+.kanban-list > button{
+    height: 70%;
+    margin: 0px;
+    font-weight: 800;
+    padding: 0px 12px;
+    color: #898989;
+    background-color: #fdfdfd;
+    border: 1px solid #c6c6c6;
+}
+
+.kanban{
+    border-radius: 4px 0px 0px 4px;
+    margin-right: -1px;
+}
+
+
+.list{
+    border-radius: 0px 4px 4px 0px;
 }
 
 .currentPage{
+    min-width: 35%;
+    text-align: right;
     font-size: 13px;
     font-weight: 700px;
-    margin-right: 16px;
 }
 
 .listEmployee{
@@ -152,7 +302,7 @@
 .avatar-employee{
     flex: 0.3;
     height: 80%;
-    margin: 8px;
+    margin: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -170,7 +320,7 @@
 
 .infor{
     flex: 1;
-    margin-right: 8px;
+    padding-right: 16px;
 }
 
 .infor-employee p{

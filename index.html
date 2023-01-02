@@ -18,15 +18,17 @@
       <nav class="nav">
         <ul class="nav-list">
           <li class="nav-item">Dashboard</li>
-          <li class="nav-item">Dashboard</li>
-          <li class="nav-item">Dashboard</li>
-          <li class="nav-item">Dashboard</li>
-          <li class="nav-item">Dashboard</li>
-          <li class="nav-item">Dashboard</li>
-          <li class="nav-item">Dashboard</li>
-          <li class="nav-item">Dashboard</li>
-          <li class="nav-item">Dashboard</li>
-          <li class="nav-item">Dashboard</li>
+          <li class="nav-item">Tax Finalization</li>
+          <li class="nav-item">Calendar</li>
+          <li class="nav-item">Working Timesheet</li>
+          <li class="nav-item">Appraisals</li>
+          <li class="nav-item">Project</li>
+          <li class="nav-item">Timesheets</li>
+          <li class="nav-item" style="background-color: black; color: #ffff">
+            Employees
+          </li>
+          <li class="nav-item">Helpdesk</li>
+          <li class="nav-item">Personal Infor</li>
         </ul>
         <ul class="nav-list">
           <li class="nav-item fa-solid fa-clock"></li>
@@ -41,8 +43,8 @@
         <div class="side-bar">
           <img src="img/ntq_logo.png" alt="" />
           <div class="employee">Employees</div>
-          <ul>
-            <li>Employee</li>
+          <ul class="about-employee">
+            <li style="background-color: #7c7bad; color: #ffff">Employees</li>
             <li>Adjust Employee</li>
             <li>Members Birthday</li>
           </ul>
@@ -52,7 +54,9 @@
         <div class="main-content">
           <div class="top-content">
             <div class="right">
-              <h3>Employees</h3>
+              <div class="right-top">
+                <h3>Employees</h3>
+              </div>
               <div class="add-employee">
                 <input
                   class="input-add-employee"
@@ -75,17 +79,29 @@
                 </div>
               </div>
               <div class="left-bottom">
-                <button class="sort_a-z">Sort A-Z</button>
-                <button class="sort_z-a">Sort Z-A</button>
-                <div class="currentPage"></div>
-                <button class="previousPage">
-                  <i class="fa-solid fa-angle-left"></i>
-                </button>
-                <button class="nextPage">
-                  <i class="fa-solid fa-angle-right"></i>
-                </button>
-                <button><i class="fa-solid fa-table"></i></button>
-                <button><i class="fa-solid fa-bars"></i></button>
+                <div class="left-bottom-left">
+                  <button class="sort_a-z">Sort A-Z</button>
+                  <button class="sort_z-a">Sort Z-A</button>
+                </div>
+                <div class="left-bottom-right">
+                  <div class="currentPage"></div>
+                  <div class="sort">
+                    <button class="previousPage">
+                      <i class="fa-solid fa-angle-left"></i>
+                    </button>
+                    <button class="nextPage">
+                      <i class="fa-solid fa-angle-right"></i>
+                    </button>
+                  </div>
+                  <div class="kanban-list">
+                    <button class="kanban">
+                      <i class="fa-solid fa-table"></i>
+                    </button>
+                    <button class="list">
+                      <i class="fa-solid fa-bars"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -70,7 +70,7 @@ function renderEmployees(listElementShowed) {
     (employee) =>
       `<div class="employeeInlist">
             <div class="avatar-employee">
-              ${employee.email[0].toLocaleUpperCase()}
+              ${getAvatar(employee.name)}
             </div>
             <div class="infor">
                 <div class="infor-employee">
@@ -90,6 +90,15 @@ function renderEmployees(listElementShowed) {
 
 // truyền vào mảng data gốc vào hàm renderEmployee để hiện thị (mặc định)
 renderEmployees(allEmployees);
+
+//Lấy ra chữ đầu trong tên của employee làm avatar
+function getAvatar(name) {
+  const nameSplit = name.trim().split(" ");
+  const avatar = Number(nameSplit[nameSplit.length - 1])
+    ? nameSplit[nameSplit.length - 2][0].toLocaleUpperCase()
+    : nameSplit[nameSplit.length - 1][0].toLocaleUpperCase();
+  return avatar;
+}
 
 // Hiển trị số thứ tự của các employee trong trang
 function renderCurrentPage(quantity) {
