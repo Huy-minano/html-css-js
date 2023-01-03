@@ -164,8 +164,8 @@ addEmployee.onclick = function () {
     let mangTenGiong = [];
     mangMangChu.forEach((element) => {
       if (
-        JSON.stringify(element) === JSON.stringify(mangName) ||
-        JSON.stringify(element.slice(0, -1)) === JSON.stringify(mangName)
+        JSON.stringify(element) === JSON.stringify(mangName) || 
+        (Number(element[element.length-1]) && JSON.stringify(element.slice(0, -1)) === JSON.stringify(mangName))
       ) {
         mangTenGiong.push(element); //[['đặng', 'thị', 'minh', 'hòa'], ['đặng', 'thị', 'minh', 'hòa', '2'], ['đặng', 'thị', 'minh', 'hòa', '4']]
       }

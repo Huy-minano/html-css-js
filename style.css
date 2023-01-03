@@ -119,23 +119,27 @@
 
 .input-add-employee{
     flex: 0.5;
-    height: 68%;
+    height:70%;
+    padding-left: 8px;
     margin-left: 16px;
     border: 1px solid #cccccc;
     border-radius: 5px;
+    outline: none;
 }
 
 .input-add-job{
     flex: 0.3;
-    height: 68%;
+    height: 70%;
+    padding-left: 8px;
     margin-left: 16px;
     border: 1px solid #cccccc;
     border-radius: 5px;
+    outline: none;
 }
 
 .btn-add-employee{
     flex: 0.08;
-    height: 68%;
+    height:70%;
     margin-left: 16px;
     color: #686767;
     background-color: #fdfdfd;
@@ -185,10 +189,7 @@
     height: 60%;
     width: 95%; 
     border: none;
-}
-
-.find > input:focus {
-    border: none;
+    outline: none;
 }
 
 .left-bottom{
@@ -209,7 +210,7 @@
 
 .left-bottom-left{
     display: flex;
-    flex: 1;
+    flex: 0.6;
 }
 
 .left-bottom-left > button{
@@ -284,6 +285,8 @@
 }
 
 .listEmployee{
+    overflow-y: auto;
+    height: 85vh;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
