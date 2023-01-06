@@ -1,70 +1,49 @@
 import { EMPLOYEES } from "./MOCK_DATA.js";
 
-let allEmployees = EMPLOYEES;
+const allEmployees = EMPLOYEES;
 
 const listEmployee = document.querySelector(".listEmployee");
 const location = document.querySelector(".currentPage");
+const employeePerPage = document.querySelector(".perPage")
 const nextPage = document.querySelector(".nextPage");
 const previousPage = document.querySelector(".previousPage");
 const sortEmployeeAz = document.querySelector(".sort_a-z");
 const sortEmployeeZa = document.querySelector(".sort_z-a");
 const filterEmployee = document.querySelector(".filter-employee");
+const typeFilter = document.querySelector(".filter");
+const btnAdd = document.querySelector('.btn-add')
+const setDisplay = document.querySelector('.add-employee')
 const inputEmployee = document.querySelector(".input-add-employee");
 const inputJob = document.querySelector(".input-add-job");
 const addEmployee = document.querySelector(".btn-add-employee");
 
 let currentPage = 1; //trang hiện tại, set giá trị ban đầu = 1
 let perPage = 40; // số employees trên 1 page
-let totalPage = Math.ceil(EMPLOYEES.length / perPage); // tổng số page cần để hiển thị hết
+let totalPage = Math.ceil(allEmployees.length / perPage); // tổng số page cần để hiển thị hết
 
 // add element vào DOM
-function renderEmployees(listElementShowed) {
-  // set các giá trị vào mảng listElementShowed để biểu diễn
-  const listElementShowedPerPage = listElementShowed.slice(
-    (currentPage - 1) * perPage,
-    (currentPage - 1) * perPage + perPage
-  );
-  //Render
-  renderCurrentPage(listElementShowed.length);
+function renderEmployees(listElementShowed, currentPage) {
+
+  //Thay đổi số employee được hiển thị
+  employeePerPage.onchange = () => (getEmployeePerPage(listElementShowed))
+
+  //Render số employyee ở trang hiện tại trên tổng số employyes 
+  renderCurrentPage(listElementShowed.length, currentPage, perPage);
+
   // chuyển trang sau khi nhấn next
-  nextPage.onclick = function () {
-    if (currentPage >= 1 && currentPage < totalPage) {
-      currentPage = currentPage + 1;
-      renderEmployees(listElementShowed);
-    }
-  };
+  nextPage.onclick = () => (moveNextPage(listElementShowed, currentPage))
 
   // chuyển trang sau khi nhấn previos
-  previousPage.onclick = function () {
-    if (currentPage > 1 && currentPage <= totalPage) {
-      currentPage = currentPage - 1;
-      renderEmployees(listElementShowed);
-    }
-  };
+  previousPage.onclick = () => (movePreviousPage(listElementShowed, currentPage))
 
   // Sắp xếp các thành viên theo tên a-z
-  sortEmployeeAz.onclick = function () {
-    const allEmployeesSortedAz = listElementShowed.sort((a, b) => {
-      let c = a.name.trim().split(" ");
-      let d = b.name.trim().split(" ");
-      let e = !Number(c[c.length - 1]) ? c[c.length - 1] : c[c.length - 2];
-      let f = !Number(d[d.length - 1]) ? d[d.length - 1] : d[d.length - 2];
-      return ("" + e).localeCompare(f);
-    });
-    renderEmployees(allEmployeesSortedAz);
-  };
+  sortEmployeeAz.onclick = () => (getSortEmployeeAz(listElementShowed))
 
   // Sắp xếp các thành viên theo tên z-a
-  sortEmployeeZa.onclick = function () {
-    const allEmployeesSortZa = listElementShowed.sort((a, b) => {
-      let c = a.name.trim().split(" ");
-      let d = b.name.trim().split(" ");
-      let e = !Number(c[c.length - 1]) ? c[c.length - 1] : c[c.length - 2];
-      let f = !Number(d[d.length - 1]) ? d[d.length - 1] : d[d.length - 2];
-      return ("" + f).localeCompare(e);
-    });
-    renderEmployees(allEmployeesSortZa);
-  };
+  sortEmployeeZa.onclick = () => (getSortEmployeeZa(listElementShowed))
+
+  // set các giá trị vào mảng listElementShowed để biểu diễn ở trang hiện tại
+  const listElementShowedPerPage = getListElementShowedPerPage(listElementShowed, currentPage)
 
   const html = listElementShowedPerPage.map(
     (employee) =>
@@ -85,11 +64,106 @@ function renderEmployees(listElementShowed) {
             </div>
         </div>`
   );
-  listEmployee.innerHTML = html.join("");
+  listEmployee.innerHTML = html.join('');
 }
 
 // truyền vào mảng data gốc vào hàm renderEmployee để hiện thị (mặc định)
-renderEmployees(allEmployees);
+renderEmployees(allEmployees, currentPage);
+
+// Thêm Nhân viên: 
+btnAdd.onclick = () =>{
+  setDisplay.style.display = "block"
+  btnAdd.style.display = "none"
+}
+
+addEmployee.onclick = () => {
+  getAddEmployee(allEmployees)
+  setDisplay.style.display = "none"
+  btnAdd.style.display = "block"
+  }
+
+//Lọc nhân viên theo các trường
+filterEmployee.onkeyup = (e) => debounced(200, (getFilterEmployee(e.target.value)))
+typeFilter.onchange = () =>(getFilterEmployee(filterEmployee.value))
+
+function debounced(delay, fn) {
+  let timerId;
+  return function (...args) {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+    timerId = setTimeout(() => {
+      fn(...args);
+      timerId = null;
+    }, delay);
+  }
+}
+
+// ========================= //
+
+function getEmployeePerPage(listElementShowed){
+  perPage = Number(employeePerPage.value)
+  renderEmployees(listElementShowed, 1);
+}
+
+// set các giá trị vào mảng listElementShowed để biểu diễn
+function getListElementShowedPerPage(listElementShowed, currentPage) {
+  return listElementShowed.slice(
+    (currentPage - 1) * perPage,
+    (currentPage - 1) * perPage + perPage
+  );
+}
+
+// Render số employyee ở trang hiện tại trên tổng số employyes 
+function renderCurrentPage(quantity, currentPage, perPage) {
+  totalPage = Math.ceil(quantity / perPage);
+  const beginNumber = (currentPage - 1) * perPage + 1;
+  const endNumber =
+    currentPage === totalPage && quantity % perPage !== 0
+      ? (currentPage - 1) * perPage + (quantity % perPage)
+      : (currentPage - 1) * perPage + perPage;
+  location.innerHTML = `<p>${beginNumber}-${endNumber}/${quantity}</p>`;
+}
+
+// chuyển trang sau khi nhấn next
+function moveNextPage(listElementShowed, currentPage) {
+  if (currentPage >= 1 && currentPage < totalPage) {
+    currentPage = currentPage + 1;
+    renderEmployees(listElementShowed, currentPage);
+  }
+};
+
+// Lùi trang sau khi nhấn previous
+function movePreviousPage(listElementShowed, currentPage) {
+  if (currentPage > 1 && currentPage <= totalPage) {
+    currentPage = currentPage - 1;
+    renderEmployees(listElementShowed, currentPage);
+  }
+}
+
+// Sắp xếp các thành viên theo tên a-z
+function getSortEmployeeAz(listElementShowed) {
+  const allEmployeesSortedAz = listElementShowed.sort((a, b) => {
+    const c = a.name.trim().split(" ");
+    const d = b.name.trim().split(" ");
+    const e = !Number(c[c.length - 1]) ? c[c.length - 1] : c[c.length - 2];
+    const f = !Number(d[d.length - 1]) ? d[d.length - 1] : d[d.length - 2];
+    return ("" + e).localeCompare(f);
+  });
+  renderEmployees(allEmployeesSortedAz, 1);
+};
+
+// Sắp xếp các thành viên theo tên a-z
+function getSortEmployeeZa(listElementShowed) {
+  const allEmployeesSortZa = listElementShowed.sort((a, b) => {
+    const c = a.name.trim().split(" ");
+    const d = b.name.trim().split(" ");
+    const e = !Number(c[c.length - 1]) ? c[c.length - 1] : c[c.length - 2];
+    const f = !Number(d[d.length - 1]) ? d[d.length - 1] : d[d.length - 2];
+    return ("" + f).localeCompare(e);
+  });
+  renderEmployees(allEmployeesSortZa, 1);
+};
 
 //Lấy ra chữ đầu trong tên của employee làm avatar
 function getAvatar(name) {
@@ -100,33 +174,32 @@ function getAvatar(name) {
   return avatar;
 }
 
-// Hiển trị số thứ tự của các employee trong trang
-function renderCurrentPage(quantity) {
-  totalPage = Math.ceil(quantity / perPage);
-  const beginNumber = (currentPage - 1) * perPage + 1;
-  console.log(currentPage);
-  console.log(totalPage);
-  let endNumber =
-    currentPage === totalPage && quantity % perPage !== 0
-      ? (currentPage - 1) * perPage + (quantity % perPage)
-      : (currentPage - 1) * perPage + perPage;
-  location.innerHTML = `<p>${beginNumber}-${endNumber}/${quantity}</p>`;
-}
-
 //Filter Employee
-filterEmployee.oninput = function (e) {
-  currentPage = 1;
-  const filterValue = e.target.value;
-  const filterList = allEmployees.filter(
-    (employee) =>
-      employee.name.toLowerCase().search(filterValue.toLowerCase()) !== -1
-  );
-  renderEmployees(filterList);
+function getFilterEmployee(value) {
+  const filterValue = value;
+  let filterList =[]
+  if (typeFilter.value === "name") {
+    filterList = allEmployees.filter(
+      (employee) =>
+        employee.name.toLowerCase().search(filterValue.toLowerCase()) !== -1
+    );
+  } else if(typeFilter.value === "position"){
+    filterList = allEmployees.filter(
+      (employee) =>
+        employee.job.toLowerCase().search(filterValue.toLowerCase()) !== -1
+    );
+  } else{
+    filterList = allEmployees.filter(
+      (employee) =>
+        employee.email.toString().toLowerCase().search(filterValue.toLowerCase()) !== -1
+    );
+  }
+  renderEmployees(filterList, 1);
 };
 
 //Add employee
-addEmployee.onclick = function () {
-  if (inputEmployee.value !== "" && inputJob.value !== "") {
+function getAddEmployee(allEmployees) {
+  if (inputEmployee.value.trim() !== "" && inputJob.value.trim() !== "") {
     // Tìm Id lớn nhất trong mảng
     let idList = [];
     allEmployees.forEach((element) => {
@@ -164,8 +237,8 @@ addEmployee.onclick = function () {
     let mangTenGiong = [];
     mangMangChu.forEach((element) => {
       if (
-        JSON.stringify(element) === JSON.stringify(mangName) || 
-        (Number(element[element.length-1]) && JSON.stringify(element.slice(0, -1)) === JSON.stringify(mangName))
+        JSON.stringify(element) === JSON.stringify(mangName) ||
+        (Number(element[element.length - 1]) && JSON.stringify(element.slice(0, -1)) === JSON.stringify(mangName))
       ) {
         mangTenGiong.push(element); //[['đặng', 'thị', 'minh', 'hòa'], ['đặng', 'thị', 'minh', 'hòa', '2'], ['đặng', 'thị', 'minh', 'hòa', '4']]
       }
@@ -217,7 +290,7 @@ addEmployee.onclick = function () {
     inputJob.value = "";
   }
 
-  renderEmployees(allEmployees);
+  renderEmployees(allEmployees, 1);
 };
 
 function loc_xoa_dau(str) {

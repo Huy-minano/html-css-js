@@ -57,7 +57,8 @@
               <div class="right-top">
                 <h3>Employees</h3>
               </div>
-              <div class="add-employee">
+              <button class="btn-add">Add new employee</button>
+              <div class="add-employee" style="display: none;">
                 <input
                   class="input-add-employee"
                   placeholder="New Employee"
@@ -70,6 +71,11 @@
             <div class="left">
               <div class="left-top">
                 <div class="find">
+                  <select class="filter">
+                    <option value="name">Name</option>
+                    <option value="position">Position</option>
+                    <option value="gmail">Gmail</option>
+                  </select>
                   <input
                     class="filter-employee"
                     type="text"
@@ -84,6 +90,12 @@
                   <button class="sort_z-a">Sort Z-A</button>
                 </div>
                 <div class="left-bottom-right">
+                  <select class="perPage">
+                    <option value="40">40/Page</option>
+                    <option value="20">20/Page</option>
+                    <option value="10">10/Page</option>
+                    <option value="5">5/Page</option>
+                  </select>
                   <div class="currentPage"></div>
                   <div class="sort">
                     <button class="previousPage">
